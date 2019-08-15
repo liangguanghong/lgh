@@ -32,14 +32,11 @@ public class StoreHouseController {
         try {
             Boolean aBoolean = storeHouseService.updateBookCountAndBalance(bookid, booknum,accid,bookPrice);
         } catch (BalanceLessException e) {
-            e.printStackTrace();
+            return "err";
         } catch (StoreHouseLessException e) {
-            e.printStackTrace();
-        } finally {
-
+            return "err";
         }
 
-
-        return "";
+        return "suc";
     }
 }
