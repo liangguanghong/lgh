@@ -31,7 +31,6 @@
             if(confirm('你确定要删除吗')){
 
                 var bookid = ev.dataTransfer.getData("bookid");
-               // alert(bookid);
                 location.href="bc/deletebook?bookid="+bookid;
             }
 
