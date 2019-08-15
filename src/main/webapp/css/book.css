@@ -1,0 +1,96 @@
+#bookrack {
+    top:14%;
+    width: 60%;
+    margin-left: 10%;
+}
+#booktop {
+
+}
+
+#bookrack a {
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+
+}
+
+#bookrack span {
+    display: none;
+    position: absolute;
+    color: #fff;
+    background: #000000;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px;
+    top: 30px;
+    left: 0;
+
+}
+
+#bookrack span big {
+    color: red;
+    font-size: 14px;
+
+}
+
+#bookrack img {
+    width: 300px;
+    height: 500px;
+    display: block;
+    border: 0;
+
+}
+
+#book-js{
+ width: 100%;
+ height: 98%;
+ position: relative;
+ background-image: url(../img/bookbg.jpg);
+ background-position: 50% 50%;
+ background-size: cover;
+ background-repeat: no-repeat;
+ margin-left: auto;
+ margin-right: auto;
+
+
+}
+#booktitle {
+    position: absolute;
+    top: 20px;
+    left: 44%;
+}
+#booktop{
+    position: absolute;
+    top: 100px;
+    left: 28%;
+}
+#lowsal{
+
+    float: left;
+    margin-left: 10px;
+}
+#bookname{
+    float: left;
+    margin-left: 10px;
+}
+#hisal,#dept{
+
+    float: left;
+    margin-left: 10px;
+}
+#subm{
+    float: left;
+    margin-left: 10px;
+}
+#bookbutoom{
+    position: absolute;
+    top: 725px;
+    left: 38%;
+}
+#pagelast,#pagenext,#pagen{
+    float: left;
+}
+#pagenow,#pagerow{
+    margin-bottom: 0px;
+    float: left;
+    font-size: 14px;
+}

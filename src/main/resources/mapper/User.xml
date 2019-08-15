@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.sz.lgh.dao.InterUserDao" >
+
+<sql id="T_USER_conlumn">
+	USERID,LOGINNAME,LOGINPWD,REALNAME,PHONE
+</sql>
+	<select id="selectUserBylogininfo" parameterType="cn.sz.lgh.pojo.Users" resultType="cn.sz.lgh.pojo.Users">
+
+		select <include refid="T_USER_conlumn"/> from T_USER
+		<where>
+			LOGINNAME=#{loginname} and LOGINPWD=#{loginpwd}
+		</where>
+
+
+
+	</select>
+	
+</mapper>

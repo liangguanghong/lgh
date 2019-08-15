@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.sz.lgh.dao.InterBookDao" >
+	<sql id="Book_conlumn">
+		BOOKID,BOOK_NAME as bookName,PUBLIC_DEPT as bookDept,BOOK_PRICE as bookPrice,PUBLIC_DATE as publicDate,BOOK_AUTH as bookAuth ,IMG_PATH as imgPath,SUMMARY
+
+	</sql>
+
+	<select id="selectbookinfo" resultType="cn.sz.lgh.pojo.Book">
+	select <include refid="Book_conlumn"/> from book
+
+	</select>
+
+	<select id="selectbookinfoByid" parameterType="java.lang.Integer" resultType="cn.sz.lgh.pojo.Book">
+		select <include refid="Book_conlumn"/> from book
+	  <where>
+		  BOOKID=#{bookid}
+	  </where>
+
+	</select>
+
+	<select id="selectbookinfosplit" parameterType="java.util.Map" resultType="cn.sz.lgh.pojo.Book">
+		select <include refid="Book_conlumn"/> from book
+		  <where>
+			  <!--标签的属性要直接写传入的属性名字,在sql语句中就要加$/#{}            -->
+			  <if test="kw!=null ">
+				  PUBLIC_DEPT like '%${kw}%'
+			  </if>
+			  <if test="lowsal!=null ">
+				  and BOOK_PRICE&gt;#{lowsal}
+			  </if>
+			  <if test="hisal!=null ">
+				  and BOOK_PRICE&lt;#{hisal}
+			  </if>
+			  <if test="bookName!=null ">
+				  and BOOK_NAME like '%${bookName}%'
+			  </if>
+
+		  </where>
+
+	</select>
+
+<insert id="addbook" parameterType="cn.sz.lgh.pojo.Book">
+	<selectKey resultType="java.lang.Integer" keyProperty="bookid" order="AFTER" >
+		select BOOK_SEQ.currval from dual
+	</selectKey>
+	insert into book (<include refid="insert_column1" />) values (<include refid="insert_column"/>)
+</insert>
+
+	<sql id="insert_column1">
+		<trim suffixOverrides="," >
+			<if test="1==1">
+				BOOKID,
+			</if>
+			<if test="bookName!= null">
+			BOOK_NAME,
+			</if>
+			<if test=" bookDept!= null">
+				PUBLIC_DEPT,
+			</if>
+			<if test="bookPrice!= null">
+				BOOK_PRICE ,
+			</if>
+			<if test="publicDate != null">
+				PUBLIC_DATE,
+			</if>
+			<if test="bookAuth != null">
+				BOOK_AUTH,
+			</if>
+			<if test="imgPath != null">
+				IMG_PATH,
+			</if>
+			<if test="summary != null">
+				SUMMARY
+			</if>
+		</trim>
+	</sql>
+
+	<sql id="insert_column">
+	<trim suffixOverrides="," >
+		<if test="1==1">
+			BOOK_SEQ.nextval,
+		</if>
+		<if test="bookName!= null">
+			#{bookName,jdbcType=VARCHAR},
+		</if>
+		<if test=" bookDept!= null">
+			#{bookDept,jdbcType=VARCHAR},
+		</if>
+		<if test="bookPrice!= null">
+			#{bookPrice,jdbcType=DOUBLE} ,
+		</if>
+		<if test="publicDate != null">
+			#{publicDate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="bookAuth != null">
+			#{bookAuth,jdbcType=VARCHAR},
+		</if>
+		<if test="imgPath != null">
+			#{imgPath,jdbcType=VARCHAR},
+		</if>
+		<if test="summary != null">
+			#{summary,jdbcType=VARCHAR}
+		</if>
+	</trim>
+</sql>
+	<delete id="deletebook" parameterType="java.lang.Integer">
+		delete from book where BOOKID=#{bookid}
+	</delete>
+
+
+
+</mapper>

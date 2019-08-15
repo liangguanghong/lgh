@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+
+
+
+	
+	<context:annotation-config></context:annotation-config>
+
+	<context:component-scan base-package="cn.sz.lgh"></context:component-scan>
+	<context:component-scan base-package="cn.sz.lgh.service"></context:component-scan>
+	<context:component-scan base-package="cn.sz.lgh.control"></context:component-scan>
+	<context:component-scan base-package="cn.sz.lgh.converter"></context:component-scan>
+	<context:component-scan base-package="cn.sz.lgh.pojo"></context:component-scan>
+	<context:component-scan base-package="cn.sz.lgh.Interceptor"></context:component-scan>
+
+
+
+<!--	<mvc:annotation-driven conversion-service="myconverter"></mvc:annotation-driven>-->
+<!--
+	<bean id="myconverter" class="org.springframework.context.support.ConversionServiceFactoryBean" >
+		<property name="converters">
+			<list>
+				<ref bean="myDateConverter" />
+			</list>
+		</property>
+	</bean>
+-->
+	<mvc:annotation-driven></mvc:annotation-driven>
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+		<property name="prefix" value="/"></property>
+		<property name="suffix" value=".jsp" ></property>
+	</bean>
+	
+	<!-- 数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" >
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" ></property>
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:myorcl" ></property>
+		<property name="username" value="zhangsan" ></property>
+		<property name="password" value="123456" ></property>
+	</bean>
+	
+	<!-- 连接工厂 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" >
+		<property name="dataSource" ref="dataSource" ></property>
+		<property name="configLocation" value="classpath:mybatis_config.xml" ></property>
+	</bean>
+
+	<bean  class="org.mybatis.spring.mapper.MapperScannerConfigurer" >
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" ></property>
+		<property name="basePackage" value="cn.sz.lgh.dao" ></property>
+	</bean>
+	<!--如果要访问.js文件,就要遭location写/js/就映射到mapper里面,**表示/img/的所有子文件-->
+<!--
+	<mvc:resources mapping="img/**" location="/img/"></mvc:resources>
+	<mvc:resources mapping="css/**" location="/css/"></mvc:resources>
+	<mvc:resources mapping="js/**" location="/js/"></mvc:resources>
+-->
+    <!-- 还需要准备一个文件上传操作对象 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
+        <property name="defaultEncoding" value="utf-8" ></property>
+    </bean>
+
+	<!--spring的拦截器-->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+
+			<bean class="cn.sz.lgh.Interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+
+	</mvc:interceptors>
+
+	<!-- 注解方式实现事务 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
+		<property name="dataSource" ref="dataSource" ></property>
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+</beans>

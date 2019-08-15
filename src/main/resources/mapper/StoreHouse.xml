@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="cn.sz.lgh.dao.InterStoreHouseDao">
+    <select id="selectcountBybookid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select BOOK_COUNT from STOREHOUSE where BOOKID=#{bookid}
+
+    </select>
+
+    <update id="updatecountBybookid" parameterType="java.util.Map">
+        update STOREHOUSE set BOOK_COUNT=#{book_count} where BOOKID=#{bookid}
+
+    </update>
+</mapper>

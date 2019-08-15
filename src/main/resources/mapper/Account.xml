@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="cn.sz.lgh.dao.InterAccountDao">
+
+    <select id="accountByUserid"  parameterType="java.lang.Integer"  resultType="cn.sz.lgh.pojo.Account">
+
+        select ACCID,ACCNAME,BALANCE,USERID from T_ACCOUNT where USERID=#{userid}
+
+    </select>
+
+    <select id="selectAccountbyAccid" parameterType="java.lang.Integer" resultType="java.lang.Double">
+select BALANCE from T_ACCOUNT where ACCID=#{accid}
+
+    </select>
+
+    <update id="updateAccountByAccid" parameterType="java.util.Map">
+        UPDATE T_ACCOUNT set BALANCE=#{balance} where ACCID=#{accid}
+    </update>
+
+</mapper>
